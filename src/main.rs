@@ -27,9 +27,7 @@ async fn run_service(lookup_client: r2r::Client<LookupTransform::Service>,
         let response = lookup_client.request(&msg).expect("could not make request");
 
         if let Ok(response) = response.await {
-            if response.success {
-                shared_state.lock().unwrap().frame_exists = true;
-            }
+            shared_state.lock().unwrap().frame_exists = response.success;
         }
 
         // publish our state
